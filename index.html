@@ -18,23 +18,27 @@
 </head>
 
 <body>
+    <!-- generated using https://github.com/TimothyYe/bing-wallpaper -->
     <ul class="bingbox bxslider"></ul>
     <script>
-        $.getJSON('https://cors-anywhere.herokuapp.com/www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8&mkt=en-US',
-            function (r) {
-                const bingbox = $('.bingbox');
-                $.each(r.images, function (i, e) {
-                    bingbox.append($('<li>').append($('<img>', {
-                        src: 'http://www.bing.com' + e.url,
-                        title: e.copyright
-                    })));
-                })
-                bingbox.bxSlider({
-                    mode: 'fade',
-                    captions: true
-                });
-                $(window).trigger('resize');
+        const imgURL = i => `https://bing.biturl.top/?resolution=1920&format=json&index=${i}&mkt=en-IN`;
+        const promises = Array.from(new Array(8)).map((_, i) => fetch(imgURL(i)).then(r => r.json()));
+        Promise.all(promises).then(images => {
+            const bingbox = document.querySelector('.bingbox');
+            images.forEach(img => {
+                const imgItem = document.createElement('li');
+                const imgTag = document.createElement('img');
+                imgTag.setAttribute('src', img.url);
+                imgTag.setAttribute('title', img.copyright);
+                imgItem.appendChild(imgTag);
+                bingbox.appendChild(imgItem);
+            })
+            $(bingbox).bxSlider({
+                mode: 'fade',
+                captions: true
             });
+            $(window).trigger('resize');
+        });
     </script>
 </body>
 
