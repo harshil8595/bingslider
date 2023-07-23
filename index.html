@@ -20,7 +20,7 @@
 <body>
     <ul class="bingbox bxslider"></ul>
     <script>
-        $.getJSON('https://cors-anywhere.herokuapp.com/www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8&mkt=en-US',
+        $.getJSON('https://cors-anywhere.herokuapp.com/www.bing.com/HPImageArchive.aspx?format=json&idx=0&n=8&mkt=en-US',
             function (r) {
                 const bingbox = $('.bingbox');
                 $.each(r.images, function (i, e) {
