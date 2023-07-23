@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Bing Slider</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/necolas/normalize.css@latest/normalize.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/stevenwanderski/bxslider-4@latest/dist/jquery.bxslider.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/stevenwanderski/bxslider-4@latest/dist/jquery.bxslider.min.js"></script>
+    <style>
+        .bxslider img {
+            max-height: calc(100vh - 4.9rem);
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="bingbox bxslider"></ul>
+    <script>
+        $.getJSON('https://cors-anywhere.herokuapp.com/www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8&mkt=en-US',
+            function (r) {
+                const bingbox = $('.bingbox');
+                $.each(r.images, function (i, e) {
+                    bingbox.append($('<li>').append($('<img>', {
+                        src: 'http://www.bing.com' + e.url,
+                        title: e.copyright
+                    })));
+                })
+                bingbox.bxSlider({
+                    mode: 'fade',
+                    captions: true
+                });
+                $(window).trigger('resize');
+            });
+    </script>
+</body>
+
+</html>
